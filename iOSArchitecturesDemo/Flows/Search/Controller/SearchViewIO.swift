@@ -22,7 +22,26 @@ protocol SearchViewInput: AnyObject {
 }
 
 protocol SearchViewOutput: AnyObject {
+    
     func viewDidSearch(with query: String)
     
     func viewDidSelectApp(_ app: ITunesApp)
+}
+
+protocol MusicSearchViewInput: AnyObject {
+
+    var searchResults: [ITunesSong] { get set }
+
+    func throbber(show: Bool)
+
+    func showError(error: Error)
+
+    func showNoResults()
+
+    func hideNoResults()
+}
+
+protocol MusicSearchViewOutput: AnyObject {
+
+    func viewDidSearch(with query: String)
 }

@@ -13,6 +13,7 @@ final class AppDetailViewController: UIViewController {
     public var app: ITunesApp!
     
     private lazy var appDetailHeader = AppDetailHeaderViewController(app: app)
+    private lazy var versionView = VersionController(app: app)
     
     private var appDetailView: AppDetailView {
         return self.view as! AppDetailView
@@ -34,6 +35,7 @@ final class AppDetailViewController: UIViewController {
     
     private func setupUI() {
         self.setupAppDetailHeaderViewController()
+        setupVersionViewController()
         self.configureNavigationController()
         self.addDescription()
     }
@@ -51,6 +53,24 @@ final class AppDetailViewController: UIViewController {
             self.appDetailHeader.view.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.appDetailHeader.view.rightAnchor.constraint(equalTo: self.view.rightAnchor),
         ])
+    }
+
+    private func setupVersionViewController() {
+        self.addChild(self.versionView)
+
+        self.view.addSubview(self.versionView.view)
+        self.versionView.didMove(toParent: self)
+
+        self.versionView.view.translatesAutoresizingMaskIntoConstraints = false
+
+        let descriptionHeight = versionView.calculateHeightOfDescription(text: app.currentVersionDescription ?? "")
+        NSLayoutConstraint.activate([
+            self.versionView.view.topAnchor.constraint(equalTo: self.appDetailHeader.view.bottomAnchor),
+            self.versionView.view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.versionView.view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.versionView.view.heightAnchor.constraint(equalToConstant: descriptionHeight )
+        ])
+
     }
     
     private func configureNavigationController() {
